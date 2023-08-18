@@ -13,18 +13,18 @@ export class UserEntity extends Entity<UserProps> {
     public readonly props: UserProps,
     id?: string,
   ) {
-    UserEntity.validade(props)
+    UserEntity.validate(props)
     super(props, id)
     this.props.createdAt = this.props.createdAt ?? new Date()
   }
 
   updateName(value: string): void {
-    UserEntity.validade({ ...this.props, name: value })
+    UserEntity.validate({ ...this.props, name: value })
     this.name = value
   }
 
   updatePassword(value: string): void {
-    UserEntity.validade({ ...this.props, password: value })
+    UserEntity.validate({ ...this.props, password: value })
     this.password = value
   }
 
@@ -52,7 +52,7 @@ export class UserEntity extends Entity<UserProps> {
     return this.props.createdAt
   }
 
-  static validade(props: UserProps): void {
+  static validate(props: UserProps): void {
     const validator = UserValidatorFactory.create()
     validator.validate(props)
   }
