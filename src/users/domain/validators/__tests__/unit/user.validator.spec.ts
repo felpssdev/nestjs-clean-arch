@@ -151,4 +151,30 @@ describe('UserValidator unit tests', () => {
       ])
     })
   })
+
+  describe('createdAt field', () => {
+    it('should invalidate number date', () => {
+      const isValid = sut.validate({
+        ...UserDataBuilder({}),
+        createdAt: 10 as any,
+      })
+
+      expect(isValid).toBeFalsy()
+      expect(sut.errors['createdAt']).toStrictEqual([
+        'createdAt must be a Date instance',
+      ])
+    })
+
+    it('should invalidate strings that are not in the date format', () => {
+      const isValid = sut.validate({
+        ...UserDataBuilder({}),
+        createdAt: '10' as any,
+      })
+
+      expect(isValid).toBeFalsy()
+      expect(sut.errors['createdAt']).toStrictEqual([
+        'createdAt must be a Date instance',
+      ])
+    })
+  })
 })
