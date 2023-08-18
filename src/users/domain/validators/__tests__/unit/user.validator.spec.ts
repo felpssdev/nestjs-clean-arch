@@ -12,6 +12,15 @@ describe('UserValidator unit tests', () => {
     sut = UserValidatorFactory.create()
   })
 
+  it('should validate a valid case', () => {
+    const validUser = UserDataBuilder({})
+    const isValid = sut.validate(validUser)
+
+    expect(isValid).toBeTruthy()
+    expect(sut.errors).toBeNull()
+    expect(sut.validatedData).toStrictEqual(new UserRules(validUser))
+  })
+
   describe('name field', () => {
     it('should invalidate null name', () => {
       const isValid = sut.validate(null)
@@ -50,15 +59,6 @@ describe('UserValidator unit tests', () => {
       expect(sut.errors['name']).toStrictEqual([
         'name must be shorter than or equal to 255 characters',
       ])
-    })
-
-    it('should validate', () => {
-      const validUser = UserDataBuilder({})
-      const isValid = sut.validate(validUser)
-
-      expect(isValid).toBeTruthy()
-      expect(sut.errors).toBeNull()
-      expect(sut.validatedData).toStrictEqual(new UserRules(validUser))
     })
   })
 
@@ -107,15 +107,6 @@ describe('UserValidator unit tests', () => {
         'email must be shorter than or equal to 255 characters',
       ])
     })
-
-    it('should validate', () => {
-      const validUser = UserDataBuilder({})
-      const isValid = sut.validate(validUser)
-
-      expect(isValid).toBeTruthy()
-      expect(sut.errors).toBeNull()
-      expect(sut.validatedData).toStrictEqual(new UserRules(validUser))
-    })
   })
 
   describe('password field', () => {
@@ -158,15 +149,6 @@ describe('UserValidator unit tests', () => {
       expect(sut.errors['password']).toStrictEqual([
         'password must be shorter than or equal to 100 characters',
       ])
-    })
-
-    it('should validate', () => {
-      const validUser = UserDataBuilder({})
-      const isValid = sut.validate(validUser)
-
-      expect(isValid).toBeTruthy()
-      expect(sut.errors).toBeNull()
-      expect(sut.validatedData).toStrictEqual(new UserRules(validUser))
     })
   })
 })
