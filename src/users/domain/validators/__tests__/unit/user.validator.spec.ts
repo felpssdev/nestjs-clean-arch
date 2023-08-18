@@ -67,6 +67,7 @@ describe('UserValidator unit tests', () => {
       const isValid = sut.validate(null)
       expect(isValid).toBeFalsy()
       expect(sut.errors['email']).toStrictEqual([
+        'email must be an email',
         'email must be shorter than or equal to 255 characters',
         'email must be a string',
         'email should not be empty',
@@ -76,7 +77,10 @@ describe('UserValidator unit tests', () => {
     it('should invalidate empty email', () => {
       const isValid = sut.validate({ ...UserDataBuilder({ email: '' }) })
       expect(isValid).toBeFalsy()
-      expect(sut.errors['email']).toStrictEqual(['email should not be empty'])
+      expect(sut.errors['email']).toStrictEqual([
+        'email must be an email',
+        'email should not be empty',
+      ])
     })
 
     it('should invalidate non string email', () => {
@@ -86,6 +90,7 @@ describe('UserValidator unit tests', () => {
       })
       expect(isValid).toBeFalsy()
       expect(sut.errors['email']).toStrictEqual([
+        'email must be an email',
         'email must be shorter than or equal to 255 characters',
         'email must be a string',
       ])
@@ -98,6 +103,7 @@ describe('UserValidator unit tests', () => {
       })
       expect(isValid).toBeFalsy()
       expect(sut.errors['email']).toStrictEqual([
+        'email must be an email',
         'email must be shorter than or equal to 255 characters',
       ])
     })
