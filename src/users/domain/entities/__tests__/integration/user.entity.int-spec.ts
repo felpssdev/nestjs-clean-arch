@@ -1,10 +1,17 @@
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder'
 import { UserEntity, UserProps } from '../../user.entity'
-import { ValidationError } from 'class-validator'
 import { ValidationErrorEntity } from '@/shared/domain/errors/validation-error'
 
 describe('UserEntity integration tests', () => {
   describe('constructor method', () => {
+    it('should accept a valid user', () => {
+      expect.assertions(0)
+
+      const props: UserProps = UserDataBuilder({})
+
+      new UserEntity(props)
+    })
+
     it('should throw an error when creating an user with invalid name', () => {
       let props: UserProps = {
         ...UserDataBuilder({}),
