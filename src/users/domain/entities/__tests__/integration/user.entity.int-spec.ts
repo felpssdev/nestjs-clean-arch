@@ -5,7 +5,7 @@ import { ValidationErrorEntity } from '@/shared/domain/errors/validation-error'
 
 describe('UserEntity integration tests', () => {
   describe('constructor method', () => {
-    it('should throw an error when creating an user with null name', () => {
+    it('should throw an error when creating an user with invalid name', () => {
       let props: UserProps = {
         ...UserDataBuilder({}),
         name: null,
@@ -19,6 +19,23 @@ describe('UserEntity integration tests', () => {
       expect(() => new UserEntity(props)).toThrowError(ValidationErrorEntity)
 
       props = UserDataBuilder({ name: 10 as any })
+      expect(() => new UserEntity(props)).toThrowError(ValidationErrorEntity)
+    })
+
+    it('should throw an error when creating an user with invalid email', () => {
+      let props: UserProps = {
+        ...UserDataBuilder({}),
+        email: null,
+      }
+      expect(() => new UserEntity(props)).toThrowError(ValidationErrorEntity)
+
+      props = UserDataBuilder({ email: '' })
+      expect(() => new UserEntity(props)).toThrowError(ValidationErrorEntity)
+
+      props = UserDataBuilder({ email: 'a'.repeat(256) })
+      expect(() => new UserEntity(props)).toThrowError(ValidationErrorEntity)
+
+      props = UserDataBuilder({ email: 10 as any })
       expect(() => new UserEntity(props)).toThrowError(ValidationErrorEntity)
     })
   })
