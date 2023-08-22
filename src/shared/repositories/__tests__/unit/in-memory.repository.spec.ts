@@ -1,7 +1,6 @@
 import { Entity } from '@/shared/domain/entities/entity'
 import { InMemoryRepository } from '../../in-memory.repository'
 import { NotFoundError } from '@/shared/domain/errors/not-found-error'
-import { async } from 'rxjs'
 
 type StubEntityProps = {
   name: string
@@ -69,5 +68,23 @@ describe('InMemoryRepository unit tests', () => {
     await sut.update(updatedEntity)
 
     expect(sut.items[0].toJSON()).toStrictEqual(updatedEntity.toJSON())
+  })
+
+  it('should throw NotFoundError when deleting a non existent entity', () => {
+    const entity = new StubEntity({ name: 'test name', price: 10 })
+
+    expect(sut.delete(entity.id)).rejects.toThrow(
+      new NotFoundError('Entity not found!'),
+    )
+  })
+
+  it('should delete an existing entity', async () => {
+    const entity = new StubEntity({ name: 'test name', price: 10 })
+
+    await sut.insert(entity)
+
+    await sut.delete(entity.id)
+
+    expect(sut.items).toHaveLength(0)
   })
 })
