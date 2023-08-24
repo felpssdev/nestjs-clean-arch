@@ -101,7 +101,7 @@ export class SearchParams {
   }
 }
 
-export class SearchResult<E extends Entity, Filter> {
+export class SearchResult<E extends Entity, Filter = string> {
   readonly items: E[]
   readonly total: number
   readonly currentPage: number
