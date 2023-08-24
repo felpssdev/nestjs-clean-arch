@@ -1,4 +1,7 @@
-import { SearchParams } from '../../searchable-repository-contracts'
+import {
+  SearchParams,
+  SearchResult,
+} from '../../searchable-repository-contracts'
 
 describe('SearchableRepository unit tests', () => {
   describe('SearchParams unit tests', () => {
@@ -140,6 +143,66 @@ describe('SearchableRepository unit tests', () => {
           param.expected,
         )
       })
+    })
+  })
+
+  describe('SearchResult unit tests', () => {
+    it('constructor props', () => {
+      let props = {
+        items: ['test1', 'test2', 'test3', 'test4', 'test5'] as any,
+        total: 4,
+        currentPage: 1,
+        perPage: 2,
+        sort: null,
+        sortDir: null,
+        filter: null,
+      }
+
+      let sut = new SearchResult(props)
+
+      expect(sut.toJSON()).toStrictEqual({ ...props, lastPage: 2 })
+
+      props = {
+        items: ['test1', 'test2', 'test3', 'test4', 'test5'] as any,
+        total: 4,
+        currentPage: 1,
+        perPage: 2,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'test',
+      }
+
+      sut = new SearchResult(props)
+
+      expect(sut.toJSON()).toStrictEqual({ ...props, lastPage: 2 })
+
+      props = {
+        items: ['test1', 'test2', 'test3', 'test4', 'test5'] as any,
+        total: 4,
+        currentPage: 1,
+        perPage: 10,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'test',
+      }
+
+      sut = new SearchResult(props)
+
+      expect(sut.toJSON()).toStrictEqual({ ...props, lastPage: 1 })
+
+      props = {
+        items: ['test1', 'test2', 'test3', 'test4', 'test5'] as any,
+        total: 53,
+        currentPage: 1,
+        perPage: 10,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'test',
+      }
+
+      sut = new SearchResult(props)
+
+      expect(sut.toJSON()).toStrictEqual({ ...props, lastPage: 6 })
     })
   })
 })
