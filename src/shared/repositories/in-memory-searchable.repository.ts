@@ -52,11 +52,11 @@ export abstract class InMemorySearchableRepository<E extends Entity>
 
     return [...items].sort((a, b) => {
       if (a.props[sort] < b.props[sort]) {
-        return sort === 'asc' ? -1 : 1
+        return sortDir === 'asc' ? -1 : 1
       }
 
       if (a.props[sort] > b.props[sort]) {
-        return sort === 'asc' ? 1 : -1
+        return sortDir === 'asc' ? 1 : -1
       }
 
       return 0
@@ -67,5 +67,10 @@ export abstract class InMemorySearchableRepository<E extends Entity>
     items: E[],
     page: SearchParams['page'],
     perPage: SearchParams['perPage'],
-  ): Promise<E[]> {}
+  ): Promise<E[]> {
+    const start = (page - 1) * perPage
+    const limit = start + perPage
+
+    return items.slice(start, limit)
+  }
 }
