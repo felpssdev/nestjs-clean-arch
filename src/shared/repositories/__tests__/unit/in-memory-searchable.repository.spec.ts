@@ -1,5 +1,6 @@
 import { Entity } from '@/shared/domain/entities/entity'
 import { InMemorySearchableRepository } from '../../in-memory-searchable.repository'
+import { async } from 'rxjs'
 
 type StubEntityProps = {
   name: string
@@ -98,7 +99,30 @@ describe('InMemorySearchableRepository unit tests', () => {
   })
 
   describe('applyPaginate method', () => {
-    it('', () => {})
+    it('should paginate items', async () => {
+      const items = [
+        new StubEntity({ name: 'a', price: 10 }),
+        new StubEntity({ name: 'b', price: 10 }),
+        new StubEntity({ name: 'c', price: 10 }),
+        new StubEntity({ name: 'd', price: 10 }),
+        new StubEntity({ name: 'e', price: 10 }),
+      ]
+      let paginatedItems = await sut['applyPaginate'](items, 1, 2)
+
+      expect(paginatedItems).toStrictEqual(items.slice(0, 2))
+
+      paginatedItems = await sut['applyPaginate'](items, 2, 2)
+
+      expect(paginatedItems).toStrictEqual(items.slice(2, 4))
+
+      paginatedItems = await sut['applyPaginate'](items, 3, 2)
+
+      expect(paginatedItems).toStrictEqual([items[4]])
+
+      paginatedItems = await sut['applyPaginate'](items, 4, 2)
+
+      expect(paginatedItems).toHaveLength(0)
+    })
   })
 
   describe('search method', () => {
