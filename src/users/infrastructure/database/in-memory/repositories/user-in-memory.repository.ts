@@ -13,7 +13,7 @@ export class UserInMemoryRepository
   async findByEmail(email: string): Promise<UserEntity> {
     const entity: UserEntity = this.items.find(item => item.email === email)
 
-    if (!entity) throw new ConflictError(`Email "${email} not found!"`)
+    if (!entity) throw new ConflictError(`Email "${email}" not found!`)
 
     return entity
   }
@@ -21,7 +21,7 @@ export class UserInMemoryRepository
   async emailExists(email: string): Promise<void> {
     const entity: UserEntity = this.items.find(item => item.email === email)
 
-    if (!entity) throw new ConflictError(`Email "${email} already exists!"`)
+    if (entity) throw new ConflictError(`Email "${email}" already exists!`)
   }
 
   protected async applyFilter(
