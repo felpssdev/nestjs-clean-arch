@@ -1,4 +1,4 @@
-import { BcryptjsHashProvider } from '../bcryptjs-hash-provider'
+import { BcryptjsHashProvider } from '../../bcryptjs-hash-provider'
 
 describe('BcryptjsHashProvider unit tests', () => {
   let sut: BcryptjsHashProvider
