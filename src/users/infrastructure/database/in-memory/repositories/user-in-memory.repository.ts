@@ -1,4 +1,5 @@
 import { ConflictError } from '@/shared/domain/errors/conflict-error'
+import { NotFoundError } from '@/shared/domain/errors/not-found-error'
 import { InMemorySearchableRepository } from '@/shared/repositories/in-memory-searchable.repository'
 import { SortDirection } from '@/shared/repositories/searchable-repository-contracts'
 import { UserEntity } from '@/users/domain/entities/user.entity'
@@ -13,7 +14,7 @@ export class UserInMemoryRepository
   async findByEmail(email: string): Promise<UserEntity> {
     const entity: UserEntity = this.items.find(item => item.email === email)
 
-    if (!entity) throw new ConflictError(`Email "${email}" not found!`)
+    if (!entity) throw new NotFoundError(`Email "${email}" not found!`)
 
     return entity
   }
