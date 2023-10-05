@@ -48,8 +48,8 @@ export class UsersController {
   private listUsersUseCase: ListUsersUseCase.UseCase
 
   @Post()
-  async create(@Body() signUpDto: SignupDto) {
-    return this.signupUseCase.execute(signUpDto)
+  async create(@Body() signupDto: SignupDto) {
+    return this.signupUseCase.execute(signupDto)
   }
 
   @HttpCode(200)
@@ -76,9 +76,9 @@ export class UsersController {
   @Patch(':id')
   async updatePassword(
     @Param('id') id: string,
-    @Body() UpdatePasswordDto: UpdatePasswordDto,
+    @Body() updatePasswordDto: UpdatePasswordDto,
   ) {
-    return this.updatePasswordUseCase.execute({ id, ...UpdatePasswordDto })
+    return this.updatePasswordUseCase.execute({ id, ...updatePasswordDto })
   }
 
   @HttpCode(204)
