@@ -4,6 +4,8 @@ import { SignupUseCase } from '@/users/application/usecases/signup.usecase'
 import { SignupDto } from '../../dtos/sign-up.dto'
 import { SignInUseCase } from '@/users/application/usecases/sign-in.usecase'
 import { SigninDto } from '../../dtos/sign-in.dto'
+import { UpdateUserUseCase } from '@/users/application/usecases/update-user.usecase'
+import { UpdateUserDto } from '../../dtos/update-user.dto'
 
 describe('UsersController', () => {
   let sut: UsersController
@@ -61,5 +63,22 @@ describe('UsersController', () => {
 
     expect(result).toStrictEqual(output)
     expect(mockSignInUseCase.execute).toHaveBeenCalledWith(input)
+  })
+
+  it('should update an user', async () => {
+    const output: UpdateUserUseCase.Output = props
+    const mockUpdateUserUseCase = {
+      execute: jest.fn().mockReturnValue(Promise.resolve(output)),
+    }
+
+    sut['updateUserUseCase'] = mockUpdateUserUseCase as any
+
+    const input: UpdateUserDto = {
+      name: 'New Name',
+    }
+    const result = await sut.update(id, input)
+
+    expect(result).toStrictEqual(output)
+    expect(mockUpdateUserUseCase.execute).toHaveBeenCalledWith({ id, ...input })
   })
 })
