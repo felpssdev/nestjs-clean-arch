@@ -5,5 +5,4 @@ export class UpdatePasswordDto
 {
   password: string
   oldPassword: string
-  name: string
 }
