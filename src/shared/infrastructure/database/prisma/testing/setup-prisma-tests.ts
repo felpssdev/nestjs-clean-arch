@@ -1,9 +1,7 @@
-import { execSync } from 'child_process'
+import { execSync } from 'node:child_process'
 
-const setupPrismaTests = () => {
+export const setupPrismaTests = () => {
   execSync(
     'npx dotenv-cli -e .env.development -- npx prisma migrate dev --schema ./src/shared/infrastructure/database/prisma/schema.prisma',
   )
 }
-
-export default setupPrismaTests
