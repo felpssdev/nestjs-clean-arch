@@ -22,9 +22,9 @@ describe('UserEntity unit tests', () => {
   })
 
   it('name field getter method', () => {
-    expect(sut.props.name).toBeDefined()
-    expect(sut.props.name).toEqual(props.name)
-    expect(typeof sut.props.name).toBe('string')
+    expect(sut.name).toBeDefined()
+    expect(sut.name).toEqual(props.name)
+    expect(typeof sut.name).toBe('string')
   })
 
   it('name field setter method', () => {
@@ -35,15 +35,15 @@ describe('UserEntity unit tests', () => {
   })
 
   it('email field getter method', () => {
-    expect(sut.props.email).toBeDefined()
-    expect(sut.props.email).toEqual(props.email)
-    expect(typeof sut.props.email).toBe('string')
+    expect(sut.email).toBeDefined()
+    expect(sut.email).toEqual(props.email)
+    expect(typeof sut.email).toBe('string')
   })
 
   it('password field getter method', () => {
-    expect(sut.props.password).toBeDefined()
-    expect(sut.props.password).toEqual(props.password)
-    expect(typeof sut.props.password).toBe('string')
+    expect(sut.password).toBeDefined()
+    expect(sut.password).toEqual(props.password)
+    expect(typeof sut.password).toBe('string')
   })
 
   it('password field setter method', () => {
@@ -54,8 +54,8 @@ describe('UserEntity unit tests', () => {
   })
 
   it('createdAt field getter method', () => {
-    expect(sut.props.createdAt).toBeDefined()
-    expect(sut.props.createdAt).toBeInstanceOf(Date)
+    expect(sut.createdAt).toBeDefined()
+    expect(sut.createdAt).toBeInstanceOf(Date)
   })
 
   it('updateName method should update user name', () => {
