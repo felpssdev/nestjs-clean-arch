@@ -24,7 +24,7 @@ export namespace UpdatePasswordUseCase {
 
       if (!input.password || !input.oldPassword) {
         throw new InvalidPasswordError(
-          'Old password and new password is required',
+          'Old password and new password are required',
         )
       }
 
