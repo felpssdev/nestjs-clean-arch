@@ -8,7 +8,7 @@ import { UserEntity } from '@/users/domain/entities/user.entity'
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder'
 import { GetUserUseCase } from '../../getuser.usecase'
 
-describe('UserPrismaRepository integration tests', () => {
+describe('GetUserUseCase integration tests', () => {
   const prismaService: PrismaClient = new PrismaClient()
   let sut: GetUserUseCase.UseCase
   let repository: UserPrismaReposity
@@ -33,6 +33,12 @@ describe('UserPrismaRepository integration tests', () => {
 
   afterAll(async () => {
     await module.close()
+  })
+
+  it('should throw an error when entity not found', async () => {
+    await expect(() => sut.execute({ id: 'fake-id' })).rejects.toThrow(
+      new NotFoundError('UserModel not found using ID fake-id'),
+    )
   })
 
   it('should return an user', async () => {

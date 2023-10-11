@@ -8,7 +8,7 @@ import { PrismaClient } from '@prisma/client'
 import { SignupUseCase } from '../../signup.usecase'
 import { BcryptjsHashProvider } from '@/users/infrastructure/providers/hash-provider/bcryptjs-hash-provider'
 
-describe('UserPrismaRepository integration tests', () => {
+describe('SignupUseCase integration tests', () => {
   const prismaService: PrismaClient = new PrismaClient()
   let sut: SignupUseCase.UseCase
   let repository: UserPrismaReposity

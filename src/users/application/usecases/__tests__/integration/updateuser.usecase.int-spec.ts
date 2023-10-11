@@ -3,14 +3,14 @@ import { setupPrismaTests } from '@/shared/infrastructure/database/prisma/testin
 import { UserPrismaReposity } from '@/users/infrastructure/database/prisma/repositories/user-prisma-repository'
 import { Test, TestingModule } from '@nestjs/testing'
 import { PrismaClient } from '@prisma/client'
-import { DeleteUserUseCase } from '../../delete-user.usecase'
-import { NotFoundError } from '@/shared/domain/errors/not-found-error'
 import { UserEntity } from '@/users/domain/entities/user.entity'
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder'
+import { UpdateUserUseCase } from '../../update-user.usecase'
+import { NotFoundError } from '@/shared/domain/errors/not-found-error'
 
-describe('DeleteUserUseCase integration tests', () => {
+describe('GetUserUseCase integration tests', () => {
   const prismaService: PrismaClient = new PrismaClient()
-  let sut: DeleteUserUseCase.UseCase
+  let sut: UpdateUserUseCase.UseCase
   let repository: UserPrismaReposity
   let module: TestingModule
 
@@ -27,7 +27,7 @@ describe('DeleteUserUseCase integration tests', () => {
   })
 
   beforeEach(async () => {
-    sut = new DeleteUserUseCase.UseCase(repository)
+    sut = new UpdateUserUseCase.UseCase(repository)
     await prismaService.user.deleteMany()
   })
 
@@ -35,31 +35,20 @@ describe('DeleteUserUseCase integration tests', () => {
     await module.close()
   })
 
-  it('should successfully delete an user', async () => {
+  it('should throw an error when entity not found', async () => {
     await expect(() =>
-      sut.execute({ id: 'b2d6d85f-e77a-412b-a8fe-c163da8dcc69' }),
-    ).rejects.toThrow(
-      new NotFoundError(
-        'UserModel not found using ID b2d6d85f-e77a-412b-a8fe-c163da8dcc69',
-      ),
-    )
+      sut.execute({ id: 'fake-id', name: 'fake name' }),
+    ).rejects.toThrow(new NotFoundError('UserModel not found using ID fake-id'))
   })
 
-  it('should successfully delete an user', async () => {
+  it('should return an user', async () => {
     const entity = new UserEntity(UserDataBuilder({}))
-    const newUser = await prismaService.user.create({
+    const model = await prismaService.user.create({
       data: entity.toJSON(),
     })
 
-    await sut.execute({ id: entity.id })
+    const output = await sut.execute({ id: entity._id, name: 'new name' })
 
-    const output = await prismaService.user.findUnique({
-      where: {
-        id: entity.id,
-      },
-    })
-    expect(output).toBeNull()
-    const models = await prismaService.user.findMany()
-    expect(models).toHaveLength(0)
+    expect(output.name).toBe('new name')
   })
 })
